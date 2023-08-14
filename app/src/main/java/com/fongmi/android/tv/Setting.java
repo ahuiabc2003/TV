@@ -2,7 +2,6 @@ package com.fongmi.android.tv;
 
 
 import com.fongmi.android.tv.player.Players;
-import com.fongmi.android.tv.utils.Sniffer;
 import com.github.catvod.utils.Prefers;
 
 public class Setting {
@@ -103,8 +102,8 @@ public class Setting {
         Prefers.put("hot", hot);
     }
 
-    public static int getViewType() {
-        return Prefers.getInt("viewType");
+    public static int getViewType(int viewType) {
+        return Prefers.getInt("viewType", viewType);
     }
 
     public static void putViewType(int viewType) {
@@ -125,6 +124,14 @@ public class Setting {
 
     public static void putLiveScale(int scale) {
         Prefers.put("scale_live", scale);
+    }
+
+    public static boolean isBootLive() {
+        return Prefers.getBoolean("boot_live");
+    }
+
+    public static void putBootLive(boolean boot) {
+        Prefers.put("boot_live", boot);
     }
 
     public static boolean isInvert() {
@@ -160,7 +167,7 @@ public class Setting {
     }
 
     public static String getUa() {
-        return Prefers.getString("ua", Sniffer.CHROME);
+        return Prefers.getString("ua");
     }
 
     public static void putUa(String ua) {

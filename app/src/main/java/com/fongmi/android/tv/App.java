@@ -3,6 +3,7 @@ package com.fongmi.android.tv;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.os.HandlerCompat;
 
+import com.fongmi.android.tv.api.LiveConfig;
 import com.fongmi.android.tv.ui.activity.CrashActivity;
 import com.fongmi.android.tv.utils.Notify;
 import com.github.catvod.Init;
@@ -34,6 +36,7 @@ public class App extends Application {
     private static App instance;
     private Activity activity;
     private final Gson gson;
+    private boolean hook;
 
     public App() {
         instance = this;
@@ -75,8 +78,21 @@ public class App extends Application {
         for (Runnable r : runnable) get().handler.removeCallbacks(r);
     }
 
+    public void setHook(boolean hook) {
+        this.hook = hook;
+    }
+
     private void setActivity(Activity activity) {
         this.activity = activity;
+    }
+
+    private LogAdapter getLogAdapter() {
+        return new AndroidLogAdapter(PrettyFormatStrategy.newBuilder().showThreadInfo(false).tag("").build()) {
+            @Override
+            public boolean isLoggable(int priority, String tag) {
+                return true;
+            }
+        };
     }
 
     @Override
@@ -129,12 +145,15 @@ public class App extends Application {
         });
     }
 
-    private LogAdapter getLogAdapter() {
-        return new AndroidLogAdapter(PrettyFormatStrategy.newBuilder().showThreadInfo(false).tag("").build()) {
-            @Override
-            public boolean isLoggable(int priority, String tag) {
-                return true;
-            }
-        };
+    @Override
+    public PackageManager getPackageManager() {
+        if (!hook) return getBaseContext().getPackageManager();
+        return LiveConfig.get().getHome().getCore();
+    }
+
+    @Override
+    public String getPackageName() {
+        if (!hook) return getBaseContext().getPackageName();
+        return LiveConfig.get().getHome().getCore().getPkg();
     }
 }
