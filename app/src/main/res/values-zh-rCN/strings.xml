@@ -1,7 +1,7 @@
 <resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
 
     <!-- App -->
-    <string name="app_name">影视</string>
+    <string name="app_name">绘盒</string>
     <string name="app_exit">再按一次返回键退出</string>
 
     <!-- Vod -->
@@ -15,7 +15,7 @@
 
     <!-- Detail -->
     <string name="detail_title"><xliff:g name="name">%s</xliff:g>：<xliff:g name="name">%s</xliff:g></string>
-    <string name="detail_site">站源：<xliff:g name="name">%s</xliff:g></string>
+    <string name="detail_site">源：<xliff:g name="name">%s</xliff:g></string>
     <string name="detail_year">年份：<xliff:g name="name">%s</xliff:g></string>
     <string name="detail_area">地区：<xliff:g name="name">%s</xliff:g></string>
     <string name="detail_type">类型：<xliff:g name="name">%s</xliff:g></string>
